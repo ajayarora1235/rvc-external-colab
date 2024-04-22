@@ -41,6 +41,24 @@ def run_script():
                     changes_made = True
                 line = new_line
 
+                new_line = line.replace("torch.save(opt, \"weights/%s.pth\" % name)", "torch.save(opt, \"/content/drive/MyDrive/RVC_Backup/weights/%s.pth\" % name)")
+                if new_line != line:
+                    print("Replaced weights path with drive weights path")
+                    changes_made = True
+                line = new_line
+
+                new_line = line.replace("weight_root = \"weights\"", "weight_root = \"/content/drive/MyDrive/RVC_Backup/weights\"")
+                if new_line != line:
+                    print("Replaced weight_root path with drive weight_root path")
+                    changes_made = True
+                line = new_line
+
+                new_line = line.replace("index_root = \"./logs/\"", "index_root = \"/content/drive/MyDrive/RVC_Backup/\"")
+                if new_line != line:
+                    print("Replaced index_root path with drive index_root path")
+                    changes_made = True
+                line = new_line
+
                 if "label=i18n(\"输入源音量包络替换输出音量包络融合比例，越靠近1越使用输出包络\")" in previous_line and "value=1," in line:
                     new_line = line.replace("value=1,", "value=0.25,")
                     if new_line != line:
@@ -131,6 +149,8 @@ def run_script():
 
         # Edit the file here, before copying
         edit_file(f"{temp_repo_path}/infer-web.py")
+
+        edit_file(f"{temp_repo_path}/train/process_ckpt.py")
 
         # Copy all files from the cloned repository to the existing path
         copy_all_files_in_directory(temp_repo_path, repo_path)
